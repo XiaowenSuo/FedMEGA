@@ -2,16 +2,15 @@
 #'
 #' @param files Named character vector or list with entries `N`, `M`, and `S`.
 #' @param phenotype Name of the phenotype column.
-#' @param covariates Character vector of covariate column names. The default
-#'   matches the manuscript simulation setup; users can provide any covariate
-#'   columns shared by all three sites.
+#' @param covariates Optional character vector of covariate column names. Users
+#'   can provide any covariate columns shared by all three sites.
 #' @param add_intercept Logical; whether to prepend an intercept column.
 #'
 #' @return A list with entries `N`, `M`, and `S`, each containing `X` and `y`.
 #' @export
 read_three_site_phenotypes <- function(files,
                                        phenotype = "pheno",
-                                       covariates = c("Gender", "PC1", "PC2", "PC3", "PC4", "PC5"),
+                                       covariates = NULL,
                                        add_intercept = TRUE) {
   required_sites <- c("N", "M", "S")
   if (is.null(names(files)) || !all(required_sites %in% names(files))) {
@@ -20,6 +19,7 @@ read_three_site_phenotypes <- function(files,
 
   read_one <- function(file) {
     dat <- data.table::fread(file, header = TRUE, stringsAsFactors = FALSE, data.table = FALSE)
+    covariates <- as.character(covariates)
     missing_cols <- setdiff(c(phenotype, covariates), names(dat))
     if (length(missing_cols) > 0) {
       stop("Missing columns in ", file, ": ", paste(missing_cols, collapse = ", "))

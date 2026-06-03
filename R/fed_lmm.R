@@ -5,8 +5,8 @@
 #' @param pheno_files Named vector with entries `N`, `M`, and `S`.
 #' @param bed_files Named vector with entries `N`, `M`, and `S`.
 #' @param phenotype Phenotype column name.
-#' @param covariates Covariate column names. The default matches the manuscript
-#'   simulation setup and is not an algorithmic restriction.
+#' @param covariates Optional covariate column names. The number and identity of
+#'   covariates are user-defined and are not restricted to the manuscript setup.
 #' @param snp_file Optional file containing SNP IDs in test order.
 #' @param n_ratio_snp Number of SNPs used to estimate the GRAMMAR-Gamma factor.
 #' @param maxiter Maximum null mixed-model iterations.
@@ -18,7 +18,7 @@
 fed_lmm_three_site <- function(pheno_files,
                                bed_files,
                                phenotype = "pheno",
-                               covariates = c("Gender", "PC1", "PC2", "PC3", "PC4", "PC5"),
+                               covariates = NULL,
                                snp_file = NULL,
                                n_ratio_snp = 100,
                                maxiter = 20,

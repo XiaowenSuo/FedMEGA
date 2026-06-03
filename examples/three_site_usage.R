@@ -12,11 +12,13 @@ bed_files <- c(
   S = "sampleS15w20w.bed"
 )
 
+covariate_names <- c("sex", "age", "PC1", "PC2", "PC3")
+
 fit_binary <- fed_bmm_three_site(
   pheno_files = pheno_files,
   bed_files = bed_files,
   phenotype = "pheno",
-  covariates = c("Gender", "PC1", "PC2", "PC3", "PC4", "PC5"),
+  covariates = covariate_names,
   snp_file = "snp200000.txt",
   n_ratio_snp = 30
 )
@@ -27,7 +29,7 @@ fit_continuous <- fed_lmm_three_site(
   pheno_files = pheno_files,
   bed_files = bed_files,
   phenotype = "pheno",
-  covariates = c("Gender", "PC1", "PC2", "PC3", "PC4", "PC5"),
+  covariates = covariate_names,
   snp_file = "snp200000.txt",
   n_ratio_snp = 100
 )

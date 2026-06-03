@@ -42,10 +42,11 @@ Phenotype files should contain:
 - one phenotype column, default `pheno`;
 - covariate columns specified by the user.
 
-The manuscript simulation examples used `Gender` and the first five genetic
-principal components. This is not an algorithmic restriction; any set of
-covariates can be supplied through the `covariates` argument as long as the
-same columns are available at all three sites.
+The number and identity of covariates are not fixed by FedMEGA. Users can
+provide any covariate set through the `covariates` argument as long as the same
+columns are available at all three sites. The manuscript simulations used sex
+and five genetic principal components as one analysis setting, not as an
+algorithmic requirement.
 
 BED files should be supplied as PLINK `.bed` prefixes accepted by
 `BEDMatrix::BEDMatrix()`.
@@ -64,6 +65,8 @@ bed_files <- c(
   M = "sampleM15w20w.bed",
   S = "sampleS15w20w.bed"
 )
+
+covariate_names <- c("sex", "age", "PC1", "PC2", "PC3")
 ```
 
 ## Limitations of this release
@@ -98,7 +101,7 @@ fit_bmm <- fed_bmm_three_site(
   pheno_files = pheno_files,
   bed_files = bed_files,
   phenotype = "pheno",
-  covariates = c("Gender", "PC1", "PC2", "PC3", "PC4", "PC5"),
+  covariates = covariate_names,
   snp_file = "snp200000.txt",
   n_ratio_snp = 30
 )
@@ -113,7 +116,7 @@ fit_lmm <- fed_lmm_three_site(
   pheno_files = pheno_files,
   bed_files = bed_files,
   phenotype = "pheno",
-  covariates = c("Gender", "PC1", "PC2", "PC3", "PC4", "PC5"),
+  covariates = covariate_names,
   snp_file = "snp200000.txt",
   n_ratio_snp = 100
 )
