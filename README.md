@@ -54,15 +54,15 @@ All vectors must be named with the three site identifiers:
 
 ```r
 pheno_files <- c(
-  N = "inputN15w20w.txt",
-  M = "inputM15w20w.txt",
-  S = "inputS15w20w.txt"
+  N = "inputN.txt",
+  M = "inputM.txt",
+  S = "inputS.txt"
 )
 
 bed_files <- c(
-  N = "sampleN15w20w.bed",
-  M = "sampleM15w20w.bed",
-  S = "sampleS15w20w.bed"
+  N = "sampleN.bed",
+  M = "sampleM.bed",
+  S = "sampleS.bed"
 )
 ```
 
@@ -70,11 +70,6 @@ bed_files <- c(
 
 - The public core implementation is restricted to three sites.
 - No protected genotype or phenotype data are distributed with the package.
-- The binary-trait GRAMMAR-Gamma ratio implementation currently uses an explicit
-  projection matrix for the ratio-estimation step. This is appropriate for the
-  manuscript-scale simulation setting, but large empirical-scale deployments
-  should use a memory-optimized implementation that avoids storing the full
-  projection matrix.
 - The package is intended for GitHub/Zenodo distribution as manuscript code. It
   is not yet submitted to CRAN.
 
@@ -99,7 +94,7 @@ fit_bmm <- fed_bmm_three_site(
   bed_files = bed_files,
   phenotype = "pheno",
   covariates = c("Gender", "PC1", "PC2", "PC3", "PC4", "PC5"),
-  snp_file = "snp200000.txt",
+  snp_file = "snpname.txt",
   n_ratio_snp = 30
 )
 
@@ -114,7 +109,7 @@ fit_lmm <- fed_lmm_three_site(
   bed_files = bed_files,
   phenotype = "pheno",
   covariates = c("Gender", "PC1", "PC2", "PC3", "PC4", "PC5"),
-  snp_file = "snp200000.txt",
+  snp_file = "snpname.txt",
   n_ratio_snp = 100
 )
 
