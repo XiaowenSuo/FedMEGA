@@ -1,0 +1,41 @@
+# R build artifacts
+*.tar.gz
+*.Rcheck/
+*.RData
+*.rda
+*.rds
+*.Rhistory
+
+# Compiled objects and shared libraries
+*.o
+*.so
+*.dll
+*.dylib
+*.a
+
+# Local results
+result*.txt
+*.log
+*.tmp
+
+# Protected or large genotype data
+*.bed
+*.bim
+*.fam
+*.pgen
+*.pvar
+*.psam
+*.vcf
+*.vcf.gz
+*.bgen
+*.sample
+
+# Local manuscript-scale input files
+input*.txt
+snp*.txt
+causalsnp*.txt
+
+# IDE/editor files
+.Rproj.user/
+.vscode/
+.idea/
