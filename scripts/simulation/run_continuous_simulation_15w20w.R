@@ -411,7 +411,6 @@ genoM<-genoM[,]
 genoN<-genoN[,]
 
 sigma<-result$theta[1]
-#sigma_e2<-result$theta[2]
 n=N_n+N_m+N_s
 V <- sigma* diag(n)
 V_inv <- solve(V)
