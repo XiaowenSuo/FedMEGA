@@ -1,4 +1,4 @@
-﻿#####Binary High privacy sample number 6000
+﻿#####Binary  sample number 15000 SNP 200000
 library(pryr)
 initial_mem <- mem_used()
 t_begin_suoglmmnull = proc.time()
@@ -36,11 +36,11 @@ library(data.table)
 initial_mem <- mem_used()
 t_begin_suoglmmnull = proc.time()
 
-# 璇诲彇涓変唤鏁版嵁
+
 read_pheno <- function(file){
   dt = fread(file, header = T, stringsAsFactors = FALSE, data.table=F)
   covs = c('Gender','PC1','PC2','PC3','PC4','PC5')
-  X = cbind(1, dt[,covs]) # 鐩存帴鍔犳埅璺濋」
+  X = cbind(1, dt[,covs]) 
   y = as.vector(dt[,"pheno"])
   list(X=as.matrix(X), y=y)
 }
@@ -129,8 +129,7 @@ print(final_alpha)
 
 cost_time = proc.time()-t_begin_suoglmmnull
 final_mem = mem_used()
-cat("杩愯鑰楁椂锛?,cost_time[3],"绉抃n")
-cat("鍐呭瓨澧為噺锛?,as.numeric(final_mem-initial_mem)/1024/1024,"MB\n")
+
 
 #########################step1
 
@@ -149,7 +148,7 @@ sourceCpp(file.path('code', 'cpp', 'wensigmaiy.cpp'))
 sourceCpp(file.path('code', 'cpp', 'G.cpp'))
 suoget_coef_no = function(yN,yM,yS,XN,XM,XS, N_n,N_m,N_s,tau, alpha0, eta0, offset, maxiter,verbose){
     
-    #Client-side computation锛歱rotect y
+    #Client-side computation protect y
     tol.coef = 0.1
     etaN=eta0[1:N_n]
     etaM=eta0[(N_n+1):(N_n+N_m)]
