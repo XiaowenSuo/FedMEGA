@@ -1,7 +1,0 @@
-useDynLib(FedMEGA, .registration = TRUE)
-importFrom(Rcpp, sourceCpp)
-export(fed_bmm_three_site)
-export(fed_lmm_three_site)
-export(fed_null_logistic_three_site)
-export(fed_null_linear_three_site)
-export(read_three_site_phenotypes)

@@ -1,0 +1,13 @@
+Software_or_package	Version_or_note
+R	Record the R version used for the final manuscript analyses
+data.table	Required for phenotype, SNP, and result table input/output
+Rcpp	Required to compile C++ helper functions
+RcppArmadillo	Required by C++ linear algebra code
+BEDMatrix	Required for PLINK BED genotype matrix input
+SAIGE	Used as a dependency in the original simulation scripts
+pryr	Used for memory tracking in simulation runs
+psych	Loaded in the original simulation scripts
+missMethods	Loaded in the score-testing sections of the original scripts
+stats	Base R statistical functions
+GCTA fastGWA	Centralized continuous-trait benchmark used in the manuscript
+GCTA fastGWA-GLMM	Centralized binary-trait benchmark used in the manuscript

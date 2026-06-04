@@ -1,131 +1,107 @@
-# FedMEGA
+# FedMEGA manuscript code
 
-FedMEGA is the core R/C++ implementation of the federated mixed-model GWAS
-framework described in the manuscript. The current release implements the
-three-client federated setting used in the study.
+This repository contains the custom analysis code for the FedMEGA manuscript.
+FedMEGA is a federated mixed-model GWAS framework with two trait-specific
+modules:
+
+- FedBMM for binary phenotypes.
+- FedLMM for continuous phenotypes.
+
+The code is provided as a manuscript code archive for GitHub/Zenodo deposition,
+not as a CRAN-style R package. It contains the core R/C++ implementation and
+simulation scripts used to run the three-client federated analyses described in
+the manuscript.
+
+## Repository contents
+
+```text
+code/
+  R/       Core R functions for FedBMM, FedLMM, null-model fitting, and score tests.
+  cpp/     Rcpp/C++ source files used by the core algorithms.
+
+scripts/
+  simulation/
+    run_binary_simulation_15w20w.R
+    run_continuous_simulation_15w20w.R
+    three_site_usage_template.R
+  figures/
+    Figure-generation scripts, when available.
+
+environment/
+  dependency_versions.tsv
+
+README.md
+LICENSE
+```
 
 ## Scope
 
-This repository provides the algorithmic implementation for:
+The public code implements the three-client horizontal federated setting used in
+the manuscript, with logical clients named `N`, `M`, and `S`. Extending the code
+to an arbitrary number of participating sites requires adapting the aggregation
+steps in the R scripts.
 
-- FedBMM: binary-trait federated generalized linear mixed-model GWAS.
-- FedLMM: continuous-trait federated linear mixed-model GWAS.
-- Federated null regression fitting.
-- Federated null mixed-model fitting.
-- Federated score testing with GRAMMAR-Gamma approximation.
-
-The current implementation is fixed to three logical clients named `N`, `M`,
-and `S`, matching the manuscript analyses. Extending the implementation to an
-arbitrary number of sites requires adapting the client aggregation steps.
-
-This repository does not include protected genotype, phenotype, or UK Biobank
+The repository does not include protected genotype, phenotype, or UK Biobank
 individual-level data. Users must supply their own site-specific phenotype,
-covariate, and genotype files.
+covariate, genotype, and SNP-list files.
 
-## Installation
+## Inputs expected by the simulation scripts
 
-```r
-install.packages("remotes")
-remotes::install_github("YOUR_GITHUB_USER/FedMEGA")
+The simulation scripts assume three local clients. Phenotype files should contain
+one phenotype column and user-specified covariate columns. In the manuscript
+simulation setting, the covariates were sex and five genetic principal
+components; this is an analysis choice rather than an algorithmic restriction.
+
+The example file names used by the 15w/20w scripts are:
+
+```text
+Binary phenotype files:
+  inputN15w20w.txt
+  inputM15w20w.txt
+  inputS15w20w.txt
+
+Continuous phenotype files:
+  inputN_q15w20w.txt
+  inputM_q15w20w.txt
+  inputS_q15w20w.txt
+
+Genotype BED files:
+  sampleN15w20w.bed
+  sampleM15w20w.bed
+  sampleS15w20w.bed
+
+SNP list:
+  snp200000.txt
 ```
 
-For local installation during review:
+These file names can be modified directly in the scripts for other simulation
+settings.
+
+## Running the simulation scripts
+
+The scripts are intended to be run from a working directory containing the
+required phenotype, genotype, SNP-list, and C++ source files. For example:
 
 ```r
-remotes::install_local("path/to/FedMEGA")
+source("scripts/simulation/run_binary_simulation_15w20w.R")
+source("scripts/simulation/run_continuous_simulation_15w20w.R")
 ```
 
-## Input contract
+Because the original analyses were based on protected UK Biobank-derived
+genotypes, this repository does not provide runnable toy genotype data.
 
-Phenotype files should contain:
+## Main dependencies
 
-- one phenotype column, default `pheno`;
-- covariate columns specified by the user.
-
-The number and identity of covariates are not fixed by FedMEGA. Users can
-provide any covariate set through the `covariates` argument as long as the same
-columns are available at all three sites. The manuscript simulations used sex
-and five genetic principal components as one analysis setting, not as an
-algorithmic requirement.
-
-BED files should be supplied as PLINK `.bed` prefixes accepted by
-`BEDMatrix::BEDMatrix()`.
-
-All vectors must be named with the three site identifiers:
-
-```r
-pheno_files <- c(
-  N = "inputN15w20w.txt",
-  M = "inputM15w20w.txt",
-  S = "inputS15w20w.txt"
-)
-
-bed_files <- c(
-  N = "sampleN15w20w.bed",
-  M = "sampleM15w20w.bed",
-  S = "sampleS15w20w.bed"
-)
-
-covariate_names <- c("sex", "age", "PC1", "PC2", "PC3")
-```
-
-## Limitations of this release
-
-- The public core implementation is restricted to three sites.
-- No protected genotype or phenotype data are distributed with the package.
-- The binary-trait GRAMMAR-Gamma ratio implementation currently uses an explicit
-  projection matrix for the ratio-estimation step. This is appropriate for the
-  manuscript-scale simulation setting, but large empirical-scale deployments
-  should use a memory-optimized implementation that avoids storing the full
-  projection matrix.
-- The package is intended for GitHub/Zenodo distribution as manuscript code. It
-  is not yet submitted to CRAN.
+The analyses used R together with `data.table`, `Rcpp`, `RcppArmadillo`,
+`BEDMatrix`, `SAIGE`, `pryr`, `psych`, `missMethods`, and base R statistical
+functions. A dependency summary is provided in
+`environment/dependency_versions.tsv`.
 
 ## Code availability statement
 
-This repository provides the core three-client FedMEGA implementation used in
-the manuscript, including FedLMM, FedBMM, federated null-model fitting,
-federated null mixed-model fitting, score testing, and GRAMMAR-Gamma
-approximation. Protected UK Biobank data and scripts requiring access to
-individual-level UK Biobank records are not included. Users must obtain access
-to protected datasets through the corresponding data access procedures.
-
-## Basic usage
-
-Binary trait:
-
-```r
-library(FedMEGA)
-
-fit_bmm <- fed_bmm_three_site(
-  pheno_files = pheno_files,
-  bed_files = bed_files,
-  phenotype = "pheno",
-  covariates = covariate_names,
-  snp_file = "snp200000.txt",
-  n_ratio_snp = 30
-)
-
-head(fit_bmm$assoc)
-```
-
-Continuous trait:
-
-```r
-fit_lmm <- fed_lmm_three_site(
-  pheno_files = pheno_files,
-  bed_files = bed_files,
-  phenotype = "pheno",
-  covariates = covariate_names,
-  snp_file = "snp200000.txt",
-  n_ratio_snp = 100
-)
-
-head(fit_lmm$assoc)
-```
-
-## Manuscript scripts
-
-The package exposes cleaned core functions rather than the original
-manuscript-run scripts. The original scripts contained local paths and
-protected-data assumptions and are therefore not distributed as package APIs.
+Custom code used to implement FedMEGA, including the core FedLMM and FedBMM
+algorithms, federated null-model fitting, federated score testing,
+GRAMMAR-Gamma approximation, and simulation scripts, is available in this
+repository and will be archived with a permanent Zenodo DOI. Protected
+individual-level UK Biobank genotype and phenotype data are not distributed and
+can be accessed only through the UK Biobank application process.

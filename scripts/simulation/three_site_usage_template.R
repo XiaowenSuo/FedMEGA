@@ -1,4 +1,22 @@
-library(FedMEGA)
+library(Rcpp)
+
+cpp_files <- setdiff(
+  list.files(file.path("code", "cpp"), pattern = "\\.cpp$", full.names = TRUE),
+  file.path("code", "cpp", "RcppExports.cpp")
+)
+
+for (cpp in cpp_files) {
+  sourceCpp(cpp)
+}
+
+r_files <- setdiff(
+  list.files(file.path("code", "R"), pattern = "\\.R$", full.names = TRUE),
+  file.path("code", "R", "RcppExports.R")
+)
+
+for (r_file in r_files) {
+  source(r_file)
+}
 
 pheno_files <- c(
   N = "inputN15w20w.txt",
