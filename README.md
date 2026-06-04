@@ -83,8 +83,8 @@ The scripts are intended to be run from a working directory containing the
 required phenotype, genotype, SNP-list, and C++ source files. For example:
 
 ```r
-source("scripts/simulation/run_binary_simulation_15w20w.R")
-source("scripts/simulation/run_continuous_simulation_15w20w.R")
+source("scripts/simulation/run_binary_simulation.R")
+source("scripts/simulation/run_continuous_simulation.R")
 ```
 
 Because the original analyses were based on protected UK Biobank-derived
