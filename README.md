@@ -21,8 +21,8 @@ code/
 
 scripts/
   simulation/
-    run_binary_simulation_15w20w.R
-    run_continuous_simulation_15w20w.R
+    run_binary_simulation.R
+    run_continuous_simulation.R
     three_site_usage_template.R
   figures/
     Figure-generation scripts, when available.
@@ -56,22 +56,22 @@ The example file names used by the 15w/20w scripts are:
 
 ```text
 Binary phenotype files:
-  inputN15w20w.txt
-  inputM15w20w.txt
-  inputS15w20w.txt
+  inputN.txt
+  inputM.txt
+  inputS.txt
 
 Continuous phenotype files:
-  inputN_q15w20w.txt
-  inputM_q15w20w.txt
-  inputS_q15w20w.txt
+  inputN_q.txt
+  inputM_q.txt
+  inputS_q.txt
 
 Genotype BED files:
-  sampleN15w20w.bed
-  sampleM15w20w.bed
-  sampleS15w20w.bed
+  sampleN.bed
+  sampleM.bed
+  sampleS.bed
 
 SNP list:
-  snp200000.txt
+  snp.txt
 ```
 
 These file names can be modified directly in the scripts for other simulation
