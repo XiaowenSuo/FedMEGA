@@ -608,7 +608,7 @@ head(var)
 
 
 
-snp<-fread('snp200000.txt',header=FALSE)
+snp<-fread('snp200000.txt',header=FALSE) ##SNP name document
 #snp<-snp$x
 final <- data.frame(
   SNP=snp,
